@@ -17,8 +17,7 @@ using json = nlohmann::json;
 
 bool isWGInstalled()
 {
-    const std::string command_isWgInstalled{"wg"};
-    return !static_cast<bool>(system(command_isWgInstalled.c_str()));
+    return std::filesystem::exists("/usr/bin/wg");
 }
 
 int main()
@@ -157,15 +156,15 @@ int main()
             }
             else if (message["type"].get<std::string>() == "wgInstall")
             {
-                if (!isWGInstalled())
-                {
-                    const std::string command_wgInstall{"pkexec apt install wireguard"};
-                    system(command_wgInstall.c_str());
-                }
+                // if (!isWGInstalled())
+                // {
+                //     const std::string command_wgInstall{"pkexec apt install wireguard"};
+                //     system(command_wgInstall.c_str());
+                // }
                 outMessage_ss << "{\"result\":true}";
             }
             else if (message["type"].get<std::string>() == "isWgInstalled")
-            {
+                {
                 if (isWGInstalled())
                 {
                     outMessage_ss << "{\"result\":true}";
